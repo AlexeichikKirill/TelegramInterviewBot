@@ -47,9 +47,8 @@ public class KeyboardMap {
         for (String name : names) {
             String backData = String.valueOf(name);
             if (backData.length() > 30) {
-                backData = name.substring(0, 30);
+                backData = name.substring(backData.length() - 30, backData.length());
             }
-
             InlineKeyboardButton kbButton = InlineKeyboardButton.builder().text(name).callbackData(backData).build();
             buttons.add(kbButton);
         }

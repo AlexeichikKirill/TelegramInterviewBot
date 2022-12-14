@@ -66,7 +66,7 @@ public class Controller {
     private void manageLocalButtons(String question, long chatId) {
         boolean warn = true;
         for (Entry<String, String> entry : FileParser.QUEST_DESCRIPTION.entrySet()) {
-            if (entry.getKey().startsWith(question)) {
+            if (entry.getKey().endsWith(question)) {
                 question = entry.getKey();
                 warn = false;
                 break;
@@ -127,10 +127,10 @@ public class Controller {
 
         List<InlineKeyboardButton> list = new ArrayList<>();
 
-        if (prev != null){
+        if (prev != null) {
             list.add(prev);
         }
-        if (next != null){
+        if (next != null) {
             list.add(next);
         }
 
