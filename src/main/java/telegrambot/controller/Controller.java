@@ -3,6 +3,7 @@ package telegrambot.controller;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -79,9 +80,12 @@ public class Controller {
         String description = "Вопрос: " + question + ": \n\n" + FileParser.QUEST_DESCRIPTION.get(question);
 
         InlineKeyboardButton button = InlineKeyboardButton.builder()
-                .text("Назад").callbackData(FileParser.QUESTION_NAME.get(question)).build();
-        InlineKeyboardMarkup keyboard = InlineKeyboardMarkup.builder()
-                .keyboardRow(List.of(button)).build();
+                .text("Вернуться к теме").callbackData(FileParser.QUESTION_NAME.get(question)).build();
+        InlineKeyboardMarkup keyboard = InlineKeyboardMarkup.builder().build();
+        List<List<InlineKeyboardButton>> lists = new ArrayList<>();
+        lists.add(List.of(button));
+        lists.add(createNextPrevButtons(question));
+        keyboard.setKeyboard(lists);
 
         if (description.length() > 4000) {
             File file = newDoc(question, description);
@@ -89,8 +93,48 @@ public class Controller {
         } else {
             bot.sendText(chatId, description, keyboard);
         }
+    }
 
+    private List<InlineKeyboardButton> createNextPrevButtons(String question) {
+        InlineKeyboardButton next = null;
+        InlineKeyboardButton prev = null;
 
+        boolean stop = false;
+        for (Entry<String, InlineKeyboardMarkup> entry : KeyboardMap.localMarkups.entrySet()) {
+            if (stop) {break;}
+            InlineKeyboardMarkup markup = entry.getValue();
+            List<List<InlineKeyboardButton>> lists = markup.getKeyboard();
+            for (int i = 0; i < lists.size(); i++) {
+                String buttonText = lists.get(i).get(0).getText();
+                if (buttonText.equals(question)) {
+                    if (i < lists.size() - 2) {
+                        InlineKeyboardButton button = lists.get(i + 1).get(0);
+                        next = InlineKeyboardButton.builder()
+                                .text("Следующий")
+                                .callbackData(button.getCallbackData()).build();
+                    }
+                    if (i > 0) {
+                        InlineKeyboardButton button = lists.get(i - 1).get(0);
+                        prev = InlineKeyboardButton.builder()
+                                .text("Предыдущий")
+                                .callbackData(button.getCallbackData()).build();
+                    }
+                    stop = true;
+                    break;
+                }
+            }
+        }
+
+        List<InlineKeyboardButton> list = new ArrayList<>();
+
+        if (prev != null){
+            list.add(prev);
+        }
+        if (next != null){
+            list.add(next);
+        }
+
+        return list;
     }
 
     private File newDoc(String question, String description) {
