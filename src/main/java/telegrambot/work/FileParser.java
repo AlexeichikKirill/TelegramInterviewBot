@@ -105,7 +105,8 @@ public class FileParser {
                         continue;
                     }
 
-                    Question question = new Question(key.toString().trim(), value.toString().trim());
+                    String keyR = key.toString().trim().replaceAll("_", "");
+                    Question question = new Question(keyR, value.toString().trim());
                     questionList.add(question);
 
                     String[] splitName = file.getKey().toString().replace("\\", "\t").split("\t");

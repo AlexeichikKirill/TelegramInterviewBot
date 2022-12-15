@@ -60,7 +60,7 @@ public class Controller {
             }
         }
         InlineKeyboardMarkup markup = KeyboardMap.localMarkups.get(question);
-        bot.sendCommand(chatId, "Ваша тема: " + question + "\nВыберите вопрос", markup);
+        bot.sendCommand(chatId, "Тема: " + question + "\nВыберите вопрос", markup);
     }
 
     private void manageLocalButtons(String question, long chatId) {
@@ -138,6 +138,7 @@ public class Controller {
     }
 
     private File newDoc(String question, String description) {
+        question = question.replaceAll("[^А-Яа-яA-Za-z ]+", "");
         String dir = "src/main/resources/QuestionsBigDescriptions/" + question + ".txt";
         File file = new File(dir);
         if (!file.exists()) {
