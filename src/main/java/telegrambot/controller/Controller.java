@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -24,15 +25,19 @@ public class Controller {
     }
 
     public void mainManage(Update update, long chatId) {
+        String txt;
+        Message message;
         if (update.hasCallbackQuery()) {
             CallbackQuery query = update.getCallbackQuery();
-            this.bot.deleteMessage(query);
-            this.manageResponse(query.getData(), chatId);
+            message = query.getMessage();
+            txt = query.getData();
         } else {
-            String txt = update.getMessage().getText();
-            this.manageResponse(txt, chatId);
+            message = update.getMessage();
+            txt = message.getText();
         }
 
+        bot.deleteMessage(message);
+        manageResponse(txt, chatId);
     }
 
     private void manageResponse(String question, long chatId) {
@@ -139,6 +144,9 @@ public class Controller {
 
     private File newDoc(String question, String description) {
         question = question.replaceAll("[^А-Яа-яA-Za-z ]+", "");
+        if (question.length() > 50) {
+            question = question.substring(0, 50);
+        }
         String dir = "src/main/resources/QuestionsBigDescriptions/" + question + ".txt";
         File file = new File(dir);
         if (!file.exists()) {

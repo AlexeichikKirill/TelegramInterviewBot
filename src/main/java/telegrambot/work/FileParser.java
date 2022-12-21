@@ -1,23 +1,22 @@
 package telegrambot.work;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 import telegrambot.pogo.Question;
 
 public class FileParser {
+
     public static final String BOT_TOKEN = getAppProperties("TOKEN");
     public static final String BOT_USERNAME = getAppProperties("BOT_USERNAME");
-    public static final Map<String, List<Question>> QUESTIONS = parse();
+    public static final Map<String, List<Question>> QUESTIONS = pars();
     public static final Map<String, String> QUEST_DESCRIPTION = getQuestDescription();
     public static final Map<String, String> QUESTION_NAME = getQuestionName();
 
@@ -43,38 +42,26 @@ public class FileParser {
         return string.trim();
     }
 
-    private static Map<String, List<Question>> parse() {
+    private static Map<String, List<Question>> pars() {
         Map<String, List<Question>> questionMap = new HashMap<>();
         HashMap<Path, String> dataMap = new HashMap<>();
 
         String dir = "src/main/resources/content/";
-        String ogl = "\\[к оглавлению]";
-        dataMap.put(Paths.get(dir + "Patterns.md"), ogl + "\\(#Шаблоны-проектирования\\)");
-        dataMap.put(Paths.get(dir + "Collections_1.md"), ogl + "\\(#java-collections-framework\\)");
-        dataMap.put(Paths.get(dir + "Collections_2.md"), ogl + "\\(#java-collections-framework\\)");
-        dataMap.put(Paths.get(dir + "IO.md"), ogl + "\\(#Потоки-вводавывода-в-java\\)");
-        dataMap.put(Paths.get(dir + "Concurrency_1.md"), ogl + "\\(#Многопоточность\\)");
-        dataMap.put(Paths.get(dir + "Concurrency_2.md"), ogl + "\\(#Многопоточность\\)");
-        dataMap.put(Paths.get(dir + "Serialization.md"), ogl + "\\(#Сериализация\\)");
-        dataMap.put(Paths.get(dir + "Servlets_1.md"), ogl + "\\(#servlets-jsp-jstl\\)");
-        dataMap.put(Paths.get(dir + "Servlets_2.md"), ogl + "\\(#servlets-jsp-jstl\\)");
-        dataMap.put(Paths.get(dir + "Log.md"), ogl + "\\(#Журналирование\\)");
-        dataMap.put(Paths.get(dir + "Testing.md"), ogl + "\\(#Тестирование\\)");
-        dataMap.put(Paths.get(dir + "HTML.md"), ogl + "\\(#Основы-html\\)");
-        dataMap.put(Paths.get(dir + "CSS.md"), ogl + "\\(#Основы-css\\)");
-        dataMap.put(Paths.get(dir + "DataBase.md"), ogl + "\\(#Базы-данных\\)");
-        dataMap.put(Paths.get(dir + "JavaCore_1.md"), ogl + "\\(#java-core\\)");
-        dataMap.put(Paths.get(dir + "JavaCore_2.md"), ogl + "\\(#java-core\\)");
-        dataMap.put(Paths.get(dir + "JavaCore_3.md"), ogl + "\\(#java-core\\)");
-        dataMap.put(Paths.get(dir + "WEB.md"), ogl + "\\(#Основы-web\\)");
-        dataMap.put(Paths.get(dir + "Java8_1.md"), ogl + "\\(#java-8\\)");
-        dataMap.put(Paths.get(dir + "Java8_2.md"), ogl + "\\(#java-8\\)");
-        dataMap.put(Paths.get(dir + "JDBC.md"), ogl + "\\(#jdbc\\)");
-        dataMap.put(Paths.get(dir + "OOP.md"), ogl + "\\(#ООП\\)");
-        dataMap.put(Paths.get(dir + "JVM.md"), ogl + "\\(#jvm\\)");
-        dataMap.put(Paths.get(dir + "XML.md"), ogl + "\\(#xml\\)");
-        dataMap.put(Paths.get(dir + "SQL.md"), ogl + "\\(#sql\\)");
-        dataMap.put(Paths.get(dir + "UML.md"), ogl + "\\(#uml\\)");
+        String ogl = "Super-Separator";
+
+        String[] names = new File(dir).list();
+
+        if (names != null){
+            for (String path : names) {
+                dataMap.put(Paths.get(dir + path.trim()), ogl);
+            }
+        }
+
+        if (dataMap.isEmpty()){
+            Logger.getGlobal().warning("Добавьте данные в " + dir);
+            throw new RuntimeException();
+        }
+
 
         try {
             for (Entry<Path, String> file : dataMap.entrySet()) {
@@ -106,10 +93,12 @@ public class FileParser {
                     }
 
                     String keyR = key.toString().trim().replaceAll("_", "");
-                    Question question = new Question(keyR, value.toString().trim());
+                    String valueR = value.toString().strip();
+                    Question question = new Question(keyR, valueR);
                     questionList.add(question);
 
-                    String[] splitName = file.getKey().toString().replace("\\", "\t").split("\t");
+                    String[] splitName = file.getKey().toString()
+                            .replace("\\", "\t").split("\t");
                     String name = splitName[splitName.length - 1].replace(".md", "");
                     questionMap.put(name, questionList);
                 }

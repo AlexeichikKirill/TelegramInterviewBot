@@ -5,11 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -84,12 +82,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    public void deleteMessage(CallbackQuery callbackQuery) {
-        if (callbackQuery == null) {
-            return;
-        }
-
-        Message message = callbackQuery.getMessage();
+    public void deleteMessage(Message message) {
         DeleteMessage deleteMessage = new DeleteMessage();
         deleteMessage.setMessageId(message.getMessageId());
         deleteMessage.setChatId(message.getChat().getId());

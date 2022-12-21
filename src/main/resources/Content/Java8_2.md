@@ -6,7 +6,7 @@
     .forEach(System.out::println);
 ```
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Как можно вывести на экран уникальные квадраты чисел используя метод `map()`?
 ```java
@@ -17,7 +17,7 @@ Stream
     .forEach(System.out::println);
 ```
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Как вывести на экран количество пустых строк с помощью метода `filter()`?
 ```java
@@ -28,7 +28,7 @@ System.out.println(
         .count());
 ```
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Как вывести на экран 10 случайных чисел в порядке возрастания?
 ```java
@@ -39,7 +39,7 @@ System.out.println(
     .forEach(System.out::println);
 ```
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Как найти максимальное число в наборе?
 ```java
@@ -50,7 +50,7 @@ Stream
     .getAsInt(); //55
 ```
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Как найти минимальное число в наборе?
 ```java
@@ -60,7 +60,7 @@ Stream
     .min()
     .getAsInt(); //2
 ```
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Как получить сумму всех чисел в наборе?
 ```java
@@ -69,7 +69,7 @@ Stream
     .mapToInt()
     .sum(); //69
 ```
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Как получить среднее значение всех чисел?
 ```java
@@ -79,7 +79,7 @@ Stream
     .average()
     .getAsDouble(); //13.8
 ```
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Какие дополнительные методы для работы с ассоциативными массивами (maps) появились в Java 8?
 + `putIfAbsent()` добавляет пару «ключ-значение», только если ключ отсутствовал:
@@ -110,24 +110,24 @@ Stream
 
 `map.merge("a", "z", (value, newValue) -> value.concat(newValue)); //["a","Aaz"]`
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Что такое `LocalDateTime`?
 `LocalDateTime` объединяет вместе `LocaleDate` и `LocalTime`, содержит дату и время в календарной системе ISO-8601 без привязки к часовому поясу. Время хранится с точностью до наносекунды. Содержит множество удобных методов, таких как plusMinutes, plusHours, isAfter, toSecondOfDay и т.д.
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Что такое `ZonedDateTime`?
 `java.time.ZonedDateTime` — аналог `java.util.Calendar`, класс с самым полным объемом информации о временном контексте в календарной системе ISO-8601. Включает временную зону, поэтому все операции с временными сдвигами этот класс проводит с её учётом.
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Как получить текущую дату с использованием Date Time API из Java 8?
 ```java
 LocalDate.now();
 ```
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Как добавить 1 неделю, 1 месяц, 1 год, 10 лет к текущей дате с использованием Date Time API?
 ```java
@@ -137,14 +137,14 @@ LocalDate.now().plusYears(1);
 LocalDate.now().plus(1, ChronoUnit.DECADES);
 ```
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Как получить следующий вторник используя Date Time API?
 ```java
 LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.TUESDAY));
 ```
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Как получить вторую субботу текущего месяца используя Date Time API?
 ```java
@@ -154,21 +154,21 @@ LocalDate
     .with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
 ```
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Как получить текущее время с точностью до миллисекунд используя Date Time API?
 ```java
 new Date().toInstant();
 ```
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Как получить текущее время по местному времени с точностью до миллисекунд используя Date Time API?
 ```java
 LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
 ```
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Как определить повторяемую аннотацию?
 Чтобы определить повторяемую аннотацию, необходимо создать аннотацию-контейнер для списка повторяемых аннотаций и обозначить повторяемую мета-аннотацией `@Repeatable`:
@@ -186,17 +186,17 @@ LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
 }
 ```
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Что такое `Nashorn`?
 __Nashorn__ - это движок JavaScript, разрабатываемый на Java компанией Oracle. Призван дать возможность встраивать код JavaScript в приложения Java. В сравнении с _Rhino_, который поддерживается Mozilla Foundation, Nashorn обеспечивает от 2 до 10 раз более высокую производительность, так как он компилирует код и передает байт-код виртуальной машине Java непосредственно в памяти. Nashorn умеет компилировать код JavaScript и генерировать классы Java, которые загружаются специальным загрузчиком. Так же возможен вызов кода Java прямо из JavaScript.
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Что такое `jjs`?
 `jjs` это утилита командной строки, которая позволяет исполнять программы на языке JavaScript прямо в консоли.
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Какой класс появился в Java 8 для кодирования/декодирования данных?
 `Base64` - потокобезопасный класс, который реализует кодировщик и декодировщик данных, используя схему кодирования base64 согласно _RFC 4648_ и _RFC 2045_.
@@ -207,7 +207,7 @@ Base64 содержит 6 основных методов:
 `getUrlEncoder()`/`getUrlDecoder()` - возвращает URL-safe кодировщик/декодировщик base64, соответствующий стандарту _RFC 4648_;
 `getMimeEncoder()`/`getMimeDecoder()` - возвращает MIME кодировщик/декодировщик, соответствующий стандарту _RFC 2045_.
 
-[к оглавлению](#java-8)
+Super-Separator
 
 ## Как создать Base64 кодировщик и декодировщик?
 ```java
@@ -217,7 +217,7 @@ String b64 = Base64.getEncoder().encodeToString("input".getBytes("utf-8")); //aW
 new String(Base64.getDecoder().decode("aW5wdXQ=="), "utf-8"); //input
 ```
 
-[к оглавлению](#java-8)
+Super-Separator
 
 # Источники
 + [Хабрахабр - Новое в Java 8](https://habrahabr.ru/post/216431/)
